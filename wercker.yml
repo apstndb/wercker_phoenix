@@ -9,7 +9,7 @@ build:
         code: mix deps.compile
     - script:
         name: release
-        code: mix release
+        code: mix release --env=prod
 test:
   box: aktsk/docker-elixir:phoenix-build
   steps:
