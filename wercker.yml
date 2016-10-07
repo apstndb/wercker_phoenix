@@ -31,7 +31,9 @@ deploy:
         password: $PASSWORD
         repository: apstndb/trush
         working-dir: /root
-        tag: wercker_phoenix, $WERCKER_GIT_COMMIT, $WERCKER_GIT_BRANCH
+        ## NOTE Branch name can be invalid docker tag name
+        # tag: wercker_phoenix, $WERCKER_GIT_COMMIT, $WERCKER_GIT_BRANCH
+        tag: wercker_phoenix, $WERCKER_GIT_COMMIT
         ports: "80"
 test:
   box: aktsk/docker-elixir:phoenix-build
