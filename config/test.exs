@@ -11,9 +11,9 @@ config :logger, level: :warn
 
 # Configure your database
 config :wercker_phoenix, WerckerPhoenix.Repo,
-  adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
+  adapter: Ecto.Adapters.MySQL,
+  username: "root",
+  password: "",
   database: "wercker_phoenix_test",
-  hostname: "localhost",
+  hostname: "127.0.0.1",
   pool: Ecto.Adapters.SQL.Sandbox
