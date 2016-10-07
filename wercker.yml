@@ -26,8 +26,7 @@ deploy:
     - script:
         name: untar
         code: tar xvf wercker_phoenix.tar.gz
-    - internal-docker:
-        
+    #- internal-docker:
 test:
   box: aktsk/docker-elixir:phoenix-build
   steps:
