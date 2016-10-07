@@ -8,4 +8,8 @@ test:
   box: aktsk/docker-elixir:phoenix-build
   steps:
     - script:
-        name: make build build-static test test-npm
+        name: get deps
+        code: mix deps.get
+    - script:
+        name: test
+        code: make build build-static test test-npm
