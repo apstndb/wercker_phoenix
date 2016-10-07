@@ -21,11 +21,33 @@ deploy:
         name: get env
         code: env
     - script:
-        name: ls
-        code: ls
-    - script:
         name: untar
-        code: tar xvf wercker_phoenix.tar.gz
+        code: cd /root && tar xvf ${WERCKER_ROOT}/wercker_phoenix.tar.gz
+    - script:
+        name: rm
+        code: rm wercker_phoenix.tar.gz
+    - internal/docker-push:
+        username: $USERNAME
+        password: $PASSWORD
+        repository: apstndb/trush
+        working-dir: /root
+        ## NOTE Branch name can be invalid docker tag name
+        # tag: wercker_phoenix, $WERCKER_GIT_COMMIT, $WERCKER_GIT_BRANCH
+        tag: wercker_phoenix, $WERCKER_GIT_COMMIT
+        ports: "80"
+
+kube:
+  box: google/cloud-sdk:latest
+  steps:
+    - script:
+        name: setup kube
+        code: |
+            echo $GCLOUD_SERVICE_KEY | base64 --decode -i > ${HOME}/gcloud-service-key.json
+            gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
+            CLOUDSDK_CORE_PROJECT=wowful-dev CLOUDSDK_COMPUTE_ZONE=asia-east1-a gcloud --quiet container clusters get-credentials wowful-k8s
+            GOOGLE_APPLICATION_CREDENTIALS=${HOME}/gcloud-service-key.json kubectl get pod
+
+
 test:
   box: aktsk/docker-elixir:phoenix-build
   services:
