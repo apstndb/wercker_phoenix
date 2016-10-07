@@ -22,7 +22,7 @@ deploy:
         code: env
     - script:
         name: untar
-        code: tar xvf wercker_phoenix.tar.gz
+        code: cd /root && tar xvf ${WERCKER_ROOT}/wercker_phoenix.tar.gz
     - script:
         name: rm
         code: rm wercker_phoenix.tar.gz
@@ -30,7 +30,8 @@ deploy:
         username: $USERNAME
         password: $PASSWORD
         repository: apstndb/trush
-        tag: wercker_phoenix
+        working-dir: /root
+        tag: wercker_phoenix, $WERCKER_GIT_COMMIT, $WERCKER_GIT_BRANCH
         ports: "80"
 test:
   box: aktsk/docker-elixir:phoenix-build
