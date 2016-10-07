@@ -29,6 +29,10 @@ deploy:
     #- internal-docker:
 test:
   box: aktsk/docker-elixir:phoenix-build
+  services:
+    - id: mysql:5.7
+      env:
+        MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
   steps:
     - script:
         name: get deps
