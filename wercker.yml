@@ -21,11 +21,17 @@ deploy:
         name: get env
         code: env
     - script:
-        name: ls
-        code: ls
-    - script:
         name: untar
         code: tar xvf wercker_phoenix.tar.gz
+    - script:
+        name: rm
+        code: rm wercker_phoenix.tar.gz
+    - internal/docker-push:
+        username: $USERNAME
+        password: $PASSWORD
+        repository: apstndb/trush
+        tag: wercker_phoenix
+        ports: "80"
 test:
   box: aktsk/docker-elixir:phoenix-build
   services:
