@@ -2,8 +2,14 @@ build:
   box: aktsk/docker-elixir:phoenix-build
   steps:
     - script:
-        name: echo env
-        code: env
+        name: get deps
+        code: mix deps.get
+    - script:
+        name: deps.compile
+        code: mix deps.compile
+    - script:
+        name: release
+        code: mix release
 test:
   box: aktsk/docker-elixir:phoenix-build
   steps:
@@ -11,5 +17,8 @@ test:
         name: get deps
         code: mix deps.get
     - script:
+        name: deps.compile
+        code: mix deps.compile
+    - script:
         name: test
-        code: make build build-static test test-npm
+        code: mix test
