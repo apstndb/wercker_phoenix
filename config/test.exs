@@ -15,5 +15,6 @@ config :wercker_phoenix, WerckerPhoenix.Repo,
   username: "root",
   password: "",
   database: "wercker_phoenix_test",
-  hostname: "127.0.0.1",
+  hostname: System.get_env("MYSQL_PORT_3306_TCP_ADDR"),
+  port: System.get_env("MYSQL_PORT_3306_TCP_PORT"),
   pool: Ecto.Adapters.SQL.Sandbox
