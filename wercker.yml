@@ -1,0 +1,11 @@
+build:
+  box: aktsk/docker-elixir:phoenix-build
+  steps:
+    - script:
+        name: echo env
+        code: env
+test:
+  box: aktsk/docker-elixir:phoenix-build
+  steps:
+    - script:
+        name: make build build-static test test-npm
