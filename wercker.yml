@@ -2,10 +2,43 @@ build:
   box: aktsk/docker-elixir:phoenix-build
   steps:
     - script:
-        name: echo env
-        code: env
-test:
-  box: aktsk/docker-elixir:phoenix-build
+        name: get deps
+        code: mix deps.get
+    - script:
+        name: deps.compile
+        code: mix deps.compile
+    - script:
+        name: release
+        code: mix release --env=prod
+    - script:
+        name: copy release
+        code: cp ./rel/wercker_phoenix/releases/0.0.1/wercker_phoenix.tar.gz "$WERCKER_OUTPUT_DIR"
+
+deploy:
+  box: aktsk/docker-elixir:phoenix-run
   steps:
     - script:
-        name: make build build-static test test-npm
+        name: get env
+        code: env
+    - script:
+        name: ls
+        code: ls
+    - script:
+        name: untar
+        code: tar xvf wercker_phoenix.tar.gz
+test:
+  box: aktsk/docker-elixir:phoenix-build
+  services:
+    - id: mysql:5.7
+      env:
+        MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+  steps:
+    - script:
+        name: get deps
+        code: mix deps.get
+    - script:
+        name: deps.compile
+        code: mix deps.compile
+    - script:
+        name: test
+        code: mix test
