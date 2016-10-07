@@ -10,6 +10,7 @@ config :wercker_phoenix, WerckerPhoenix.Endpoint,
 config :logger, level: :warn
 
 # Configure your database
+# NOTE: Use env ver of docker link format
 config :wercker_phoenix, WerckerPhoenix.Repo,
   adapter: Ecto.Adapters.MySQL,
   username: "root",
